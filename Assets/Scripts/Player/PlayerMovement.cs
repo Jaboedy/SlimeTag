@@ -6,23 +6,42 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public Rigidbody2D rb;
     public LayerMask groudLayer;
+    public float fallSpeed = 0.1f;
 
-    private float horizontal;
+	private Rigidbody2D rb;
+
+	private float horizontal;
     private float speed = 8f;
-    private float jumpingPower = 16f;
-    private bool isFacingRight = true;
+    private float jumpingPower = 8f;
+    private bool isFacingRight = false;
+    private bool isTouchingGround = false;
     // Start is called before the first frame update
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+        float yVel;
+        if (isTouchingGround)
+        {
+            yVel = 0;
+            var hit = Physics2D.Raycast(transform.position, -transform.up);
+            if (hit)
+            {
+                Debug.Log(hit.transform.gameObject.name);
+            }
+            
+        }
+        else
+        {
+            yVel = rb.velocity.y - fallSpeed;
+        }
+        rb.velocity = new Vector2(horizontal * speed, yVel);
+
 
         if (!isFacingRight && horizontal > 0f) 
         {
@@ -38,7 +57,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (context.performed && true)
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
+            var up = transform.up * jumpingPower;
+            rb.velocity = new Vector2(rb.velocity.x + up.x, rb.velocity.y + up.y);
+            isTouchingGround = false;
         }
         if (context.canceled && rb.velocity.y > 0f)
         {
@@ -53,6 +74,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void Flip()
     {
+        isFacingRight = !isFacingRight;
         transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
     }
+
+	private void OnCollisionEnter2D(Collision2D collision)
+	{
+        Debug.Log("Entered Collision");
+        if (collision.gameObject.layer == 6)
+        {
+            Debug.Log("Collision with env layer");
+			isTouchingGround = true;
+		}
+	}
 }
