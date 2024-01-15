@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerGravityControl : MonoBehaviour
 {
     private Vector3 direction;
-    private RaycastHit2D ray;
+    private static RaycastHit2D ray;
 
     void Start()
     {
@@ -16,20 +16,19 @@ public class PlayerGravityControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        direction = transform.TransformDirection(Vector3.down) * 1;
-        ray = Physics2D.Raycast(transform.position, direction, 1f, 6);
+        direction = transform.TransformDirection(Vector3.down);
+        ray = Physics2D.Raycast(new Vector3(transform.position.x, transform.position.y - 1.1f), direction, 0.2f, 6);
+        Debug.DrawRay(new Vector3(transform.position.x, transform.position.y - 0.6f), direction, Color.red);
         StickToSurface();
+
     }
     
     private void StickToSurface()
     {
-        Debug.Log(ray.collider.gameObject.name);
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, direction);
+        if (ray.rigidbody.name != null)
+        {
+            Debug.Log(ray.rigidbody.name);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
