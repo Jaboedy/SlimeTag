@@ -19,7 +19,7 @@ public class PlayerGravityControl : MonoBehaviour
         direction = transform.TransformDirection(Vector3.down);
         ray = Physics2D.Raycast(new Vector3(transform.position.x, transform.position.y - 1.1f), direction, 0.2f, 6);
         Debug.DrawRay(new Vector3(transform.position.x, transform.position.y - 0.6f), direction, Color.red);
-        StickToSurface();
+        //StickToSurface();
 
     }
     
