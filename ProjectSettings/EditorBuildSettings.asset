@@ -8,5 +8,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/BrodyDevScene.unity
+    guid: f00787186315b804e91c0bdf13374911
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: edc3209e783cf5046b9eb984ee22b30b, type: 2}
