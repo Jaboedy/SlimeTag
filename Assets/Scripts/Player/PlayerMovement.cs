@@ -16,10 +16,20 @@ public class PlayerMovement : MonoBehaviour
     private float jumpingPower = 8f;
     private bool isFacingRight = false;
     private bool isTouchingGround = false;
+
+    private Animator playerAnimator;
+
+    [SerializeField] private GameObject rightThresh;
+    [SerializeField] private GameObject leftThresh;
+    [SerializeField] private GameObject botThresh;
+
+    [SerializeField] private GameObject respawnPoint;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        playerAnimator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -51,6 +61,25 @@ public class PlayerMovement : MonoBehaviour
         {
             Flip();
         }
+        ControlAnim();
+        
+        if (transform.position.y < botThresh.transform.position.y)
+        {
+            //yield return new WaitForSeconds(2.5f);
+            transform.position = new Vector3(respawnPoint.transform.position.x, respawnPoint.transform.position.y);
+        }
+
+        if (transform.position.x < leftThresh.transform.position.x)
+        {
+            transform.position = new Vector3(rightThresh.transform.position.x, transform.position.y);
+        }
+
+        if (transform.position.x > rightThresh.transform.position.x)
+        {
+            transform.position = new Vector3(leftThresh.transform.position.x, transform.position.y);
+        }
+
+
     }
 
     public void Jump(InputAction.CallbackContext context)
@@ -87,4 +116,36 @@ public class PlayerMovement : MonoBehaviour
 			isTouchingGround = true;
 		}
 	}
+
+    private void ControlAnim()
+    {
+        if (rb.velocity.y > 1)
+        {
+            playerAnimator.SetTrigger("jump");
+        }
+        else
+        {
+            if (horizontal > 0f || horizontal < 0f)
+            {
+                playerAnimator.SetTrigger("run");
+            }
+            else if (horizontal == 0f)
+            {
+                playerAnimator.SetTrigger("idle");
+            }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.layer == 7)
+        {
+            playerAnimator.SetTrigger("hit");
+        }
+    }
+
+    private IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(2.5f);
+    }
 }
