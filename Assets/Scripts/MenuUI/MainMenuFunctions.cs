@@ -66,6 +66,6 @@ public class MainMenuFunctions : MonoBehaviour
 
     public void LoadGame()
     {
-        //SceneManager.LoadScene("ClaytonsDevScene");
+        SceneManager.LoadScene("ClaytonsDevScene");
     }
 }
