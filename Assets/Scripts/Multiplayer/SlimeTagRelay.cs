@@ -23,7 +23,6 @@ public class SlimeTagRelay : MonoBehaviour
     private async void Awake()
     {
         _transport = FindObjectOfType<UnityTransport>();
-        Debug.Log(_transport);
         _buttons.SetActive(false);
         Debug.Log("Authenticating");
         await Authenticate();
@@ -31,11 +30,6 @@ public class SlimeTagRelay : MonoBehaviour
         
         _buttons.SetActive(true);
     }
-
-	private void Start()
-	{
-        StartCoroutine(WaitThenCreateGame(5f));
-	}
 
 	private async Task Authenticate()
     {
@@ -51,14 +45,6 @@ public class SlimeTagRelay : MonoBehaviour
 		await AuthenticationService.Instance.SignInAnonymouslyAsync();
 		Debug.Log("Signin Anonymously succeeded");
 		Debug.Log($"PlayerID: {AuthenticationService.Instance.PlayerId}");
-	}
-
-    private IEnumerator WaitThenCreateGame(float seconds)
-    {
-        Debug.Log("Start wait");
-        yield return new WaitForSeconds(seconds);
-        Debug.Log("End wait");
-		CreateGame();
 	}
 
     public async void CreateGame()
