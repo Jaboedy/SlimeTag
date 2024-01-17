@@ -524,25 +524,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1823575938}
-        m_TargetAssemblyTypeName: MainMenuFunctions, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: 1679911191}
+        m_TargetAssemblyTypeName: SlimeTagRelay, Assembly-CSharp
+        m_MethodName: CreateGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 11500000, guid: ea255952beb8ed44b97d19ade74e9050, type: 3}
-        m_TargetAssemblyTypeName: MainMenuFunctions, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2240,7 +2228,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1426369987}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1679911191}
+        m_TargetAssemblyTypeName: SlimeTagRelay, Assembly-CSharp
+        m_MethodName: JoinGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1426369987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2867,6 +2867,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b94954ed02f5ad4c8fd75e44f148a23, type: 3}
+--- !u!114 &1679911191 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3063071494838977927, guid: 0b94954ed02f5ad4c8fd75e44f148a23, type: 3}
+  m_PrefabInstance: {fileID: 1679911190}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea255952beb8ed44b97d19ade74e9050, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1693232278
 GameObject:
   m_ObjectHideFlags: 0
