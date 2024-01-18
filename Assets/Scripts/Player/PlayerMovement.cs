@@ -154,4 +154,16 @@ public class PlayerMovement : NetworkBehaviour
     {
         yield return new WaitForSeconds(2.5f);
     }
+
+    public void StartSpeedBoost()
+    {
+        StartCoroutine(SpeedBoost());
+    }
+
+    private IEnumerator SpeedBoost()
+    {
+        speed = 12f;
+        yield return new WaitForSeconds(6f);
+        speed = 8f;
+    }
 }
