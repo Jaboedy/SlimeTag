@@ -47,3 +47,4 @@ MonoBehaviour:
   _joinCodeText: {fileID: 0}
   _joinInput: {fileID: 0}
   _buttons: {fileID: 0}
+  joinCode: 

@@ -19,9 +19,11 @@ public class SlimeTagRelay : MonoBehaviour
 
     private UnityTransport _transport;
     private const int MaxPlayers = 5;
+    public string joinCode = "";
 
     private async void Awake()
     {
+        Debug.Log(_joinCodeText.text);
         _transport = FindObjectOfType<UnityTransport>();
         _buttons.SetActive(false);
         Debug.Log("Authenticating");
@@ -33,15 +35,7 @@ public class SlimeTagRelay : MonoBehaviour
 
 	private async Task Authenticate()
     {
-        try
-		{
-			await UnityServices.InitializeAsync();
-		}
-        catch (Exception e)
-        {
-            Debug.LogException(e);
-        }
-        Debug.Log("InitializeAsync complete");
+        await UnityServices.InitializeAsync();
 		await AuthenticationService.Instance.SignInAnonymouslyAsync();
 		Debug.Log("Signin Anonymously succeeded");
 		Debug.Log($"PlayerID: {AuthenticationService.Instance.PlayerId}");
@@ -52,12 +46,14 @@ public class SlimeTagRelay : MonoBehaviour
         _buttons.SetActive(false);
 
         Allocation a = await RelayService.Instance.CreateAllocationAsync(MaxPlayers);
-        var joinCode = await RelayService.Instance.GetJoinCodeAsync(a.AllocationId);
+        joinCode = await RelayService.Instance.GetJoinCodeAsync(a.AllocationId);
         Debug.Log(joinCode);
+
+        _joinCodeText.SetText($"Host Code: {joinCode}");
 
         _transport.SetHostRelayData(a.RelayServer.IpV4, (ushort)a.RelayServer.Port, a.AllocationIdBytes, a.Key, a.ConnectionData);
 
-        var hostStarted = NetworkManager.Singleton.StartHost();
+        NetworkManager.Singleton.StartHost();
         Debug.Log($"Host Started");
         _buttons.SetActive(true);
 		Debug.Log("Game Created");
