@@ -36,10 +36,10 @@ public class PlayerMovement : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!IsOwner)
+        /*if (!IsOwner)
         {
             return;
-        }
+        }*/
 
         float yVel;
         if (isTouchingGround)
