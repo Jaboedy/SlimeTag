@@ -103,8 +103,8 @@ public class PlayerMovement : NetworkBehaviour
         if (context.canceled && rb.velocity.y > 0f)
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
-        }
-    }
+		}
+	}
 
     public void Move(InputAction.CallbackContext context)
     {
