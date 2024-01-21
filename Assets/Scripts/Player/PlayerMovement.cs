@@ -24,8 +24,10 @@ public class PlayerMovement : NetworkBehaviour
 
     [SerializeField] private GameObject respawnPoint;
 
+    public bool isInfected = false;
+
     // Start is called before the first frame update
-    void Start()
+    public override void OnNetworkSpawn()
     {
         rb = GetComponent<Rigidbody2D>();
         playerAnimator = GetComponent<Animator>();
@@ -39,7 +41,7 @@ public class PlayerMovement : NetworkBehaviour
             return;
         }*/
 
-        float yVel;
+        /*float yVel;
         if (isTouchingGround)
         {
             yVel = 0;
@@ -54,7 +56,7 @@ public class PlayerMovement : NetworkBehaviour
         {
             yVel = rb.velocity.y - fallSpeed;
         }
-        rb.velocity = new Vector2(horizontal * speed, yVel);
+        rb.velocity = new Vector2(horizontal * speed, yVel);*/
 
 
         if (!isFacingRight && horizontal > 0f) 
@@ -88,7 +90,7 @@ public class PlayerMovement : NetworkBehaviour
 
     // Makes all players jump on input
     // TODO: FIX THIS SHIT
-    public void Jump(InputAction.CallbackContext context)
+    /*public void Jump(InputAction.CallbackContext context)
     {
         if (context.performed && true)
         {
@@ -100,7 +102,7 @@ public class PlayerMovement : NetworkBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
         }
-    }
+    }*/
 
     public void Move(InputAction.CallbackContext context)
     {
@@ -148,6 +150,15 @@ public class PlayerMovement : NetworkBehaviour
         {
             playerAnimator.SetTrigger("hit");
         }
+
+        if (isInfected && collision.gameObject.layer == 3)
+        {
+            collision.GetComponent<PlayerMovement>().BecomeInfected();
+        }
+    }
+    public void BecomeInfected()
+    {
+        isInfected = true;
     }
 
     private IEnumerator Wait()
