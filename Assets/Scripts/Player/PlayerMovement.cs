@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -24,11 +25,14 @@ public class PlayerMovement : NetworkBehaviour
 
     [SerializeField] private GameObject respawnPoint;
 
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private List<Material> materials;
+
+    // Use instead of awake/start for network
+    public override void OnNetworkSpawn()
     {
         rb = GetComponent<Rigidbody2D>();
         playerAnimator = GetComponent<Animator>();
+        GetComponent<SpriteRenderer>().material = materials[((int)OwnerClientId)];
     }
 
     // Update is called once per frame
