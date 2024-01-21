@@ -10,6 +10,7 @@ using Unity.Services.Core;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class SlimeTagRelay : MonoBehaviour
 {
@@ -51,7 +52,11 @@ public class SlimeTagRelay : MonoBehaviour
 
         _transport.SetHostRelayData(a.RelayServer.IpV4, (ushort)a.RelayServer.Port, a.AllocationIdBytes, a.Key, a.ConnectionData);
 
-        NetworkManager.Singleton.StartHost();
+        bool serverStarted = NetworkManager.Singleton.StartHost();
+        if (serverStarted)
+        {
+            NetworkManager.Singleton.SceneManager.LoadScene("Lobby", UnityEngine.SceneManagement.LoadSceneMode.Single);
+        }
 	}
 
     public async void JoinGame()
