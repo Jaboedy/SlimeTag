@@ -37,8 +37,6 @@ public class SlimeTagRelay : MonoBehaviour
     {
         await UnityServices.InitializeAsync();
 		await AuthenticationService.Instance.SignInAnonymouslyAsync();
-		Debug.Log("Signin Anonymously succeeded");
-		Debug.Log($"PlayerID: {AuthenticationService.Instance.PlayerId}");
 	}
 
     public async void CreateGame()
@@ -54,9 +52,6 @@ public class SlimeTagRelay : MonoBehaviour
         _transport.SetHostRelayData(a.RelayServer.IpV4, (ushort)a.RelayServer.Port, a.AllocationIdBytes, a.Key, a.ConnectionData);
 
         NetworkManager.Singleton.StartHost();
-        Debug.Log($"Host Started");
-        _buttons.SetActive(true);
-		Debug.Log("Game Created");
 	}
 
     public async void JoinGame()

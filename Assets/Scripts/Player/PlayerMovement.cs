@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
-using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -88,6 +86,8 @@ public class PlayerMovement : NetworkBehaviour
 
     }
 
+    // Makes all players jump on input
+    // TODO: FIX THIS SHIT
     public void Jump(InputAction.CallbackContext context)
     {
         if (context.performed && true)
