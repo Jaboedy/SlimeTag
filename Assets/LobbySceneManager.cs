@@ -1,23 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
-public class LobbySceneManager : NetworkBehaviour
+public class LobbySceneManager : MonoBehaviour
 {
-    
-	// Start is called before the first frame update
-	public override void OnNetworkSpawn()
+    [SerializeField] SlimeTagSceneManager sceneManager;
+    [SerializeField] TMP_Text _joinCode;
+	public void Awake()
 	{
-        foreach (var client in NetworkManager.Singleton.ConnectedClients)
+        sceneManager = FindObjectOfType<SlimeTagSceneManager>();
+        _joinCode.text = $"Host Code: {sceneManager.getJoinCode()}";
+		foreach (var client in NetworkManager.Singleton.ConnectedClients)
         {
             Debug.Log($"Client: {client}");
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
