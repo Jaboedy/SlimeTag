@@ -17,6 +17,7 @@ public class SlimeTagRelay : MonoBehaviour
     [SerializeField] private TMP_Text _joinCodeText;
     [SerializeField] private TMP_InputField _joinInput;
     [SerializeField] private GameObject _buttons;
+    [SerializeField] private GameObject _slimeTagSceneManager;
 
     private UnityTransport _transport;
     private const int MaxPlayers = 5;
@@ -55,6 +56,7 @@ public class SlimeTagRelay : MonoBehaviour
         bool serverStarted = NetworkManager.Singleton.StartHost();
         if (serverStarted)
         {
+            _slimeTagSceneManager.GetComponent<SlimeTagSceneManager>().setJoinCode(joinCode);
             NetworkManager.Singleton.SceneManager.LoadScene("Lobby", UnityEngine.SceneManagement.LoadSceneMode.Single);
         }
 	}
@@ -64,6 +66,7 @@ public class SlimeTagRelay : MonoBehaviour
         _buttons.SetActive(false);
 
         JoinAllocation a = await RelayService.Instance.JoinAllocationAsync(_joinInput.text);
+        _slimeTagSceneManager.GetComponent<SlimeTagSceneManager>().setJoinCode(_joinInput.text);
 
         _transport.SetClientRelayData(a.RelayServer.IpV4, (ushort)a.RelayServer.Port, a.AllocationIdBytes, a.Key, a.ConnectionData, a.HostConnectionData);
 
