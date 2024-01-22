@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -27,15 +28,18 @@ public class PlayerMovement : NetworkBehaviour
 
     [SerializeField] private GameObject respawnPoint;
 
+    [SerializeField] private List<Material> materials;
+
     public bool isInfected = false;
 
     [SerializeField] private bool isMovable = true;
 
-    // Start is called before the first frame update
+    // Use instead of awake/start for network
     public override void OnNetworkSpawn()
     {
         rb = GetComponent<Rigidbody2D>();
         playerAnimator = GetComponent<Animator>();
+        GetComponent<SpriteRenderer>().material = materials[((int)OwnerClientId)];
     }
 
     // Update is called once per frame
@@ -72,7 +76,7 @@ public class PlayerMovement : NetworkBehaviour
             var hit = Physics2D.Raycast(transform.position, -transform.up);
             if (hit)
             {
-                Debug.Log(hit.transform.gameObject.name);
+                //Debug.Log(hit.transform.gameObject.name);
             }
             
         }
@@ -141,10 +145,8 @@ public class PlayerMovement : NetworkBehaviour
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-        Debug.Log("Entered Collision");
         if (collision.gameObject.layer == 6)
         {
-            Debug.Log("Collision with env layer");
 			isTouchingGround = true;
 		}
     }
