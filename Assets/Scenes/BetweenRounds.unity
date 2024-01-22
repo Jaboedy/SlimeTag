@@ -1364,6 +1364,7 @@ GameObject:
   - component: {fileID: 1801542209}
   - component: {fileID: 1801542208}
   - component: {fileID: 1801542207}
+  - component: {fileID: 1801542211}
   m_Layer: 5
   m_Name: BetweenRoundDisplay
   m_TagString: Untagged
@@ -1454,6 +1455,30 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1801542211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801542206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d884d21f424ba9c4c936ca07b8987ab4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerOneName: {fileID: 846899527}
+  PlayerTwoName: {fileID: 1020321028}
+  PlayerThreeName: {fileID: 105411837}
+  PlayerFourName: {fileID: 1938324286}
+  PlayerFiveName: {fileID: 1864120094}
+  PlayerOneScore: {fileID: 1086280635}
+  PlayerTwoScore: {fileID: 1502970886}
+  PlayerThreeScore: {fileID: 944015770}
+  PlayerFourScore: {fileID: 2022371538}
+  PlayerFiveScore: {fileID: 2118975472}
+  playersNames: []
+  scores: []
 --- !u!1 &1864120094
 GameObject:
   m_ObjectHideFlags: 0
