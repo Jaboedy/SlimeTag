@@ -19,7 +19,7 @@ public class WingedBootsController : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            collision.GetComponent<PlayerMovement>().StartSpeedBoost();
+            collision.GetComponent<PlatformChaser2DModified>().StartSpeedBoost();
             Destroy(gameObject);
         }
     }

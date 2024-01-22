@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,7 +18,9 @@ public class PlayerMovement : NetworkBehaviour
     private bool isFacingRight = false;
     private bool isTouchingGround = false;
 
-    private Animator playerAnimator;
+    [SerializeField] private Material infectedMat;
+
+    [SerializeField] private Animator playerAnimator;
 
     [SerializeField] private GameObject rightThresh;
     [SerializeField] private GameObject leftThresh;
@@ -26,6 +29,10 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] private GameObject respawnPoint;
 
     [SerializeField] private List<Material> materials;
+
+    public bool isInfected = false;
+
+    [SerializeField] private bool isMovable = true;
 
     // Use instead of awake/start for network
     public override void OnNetworkSpawn()
@@ -38,12 +45,31 @@ public class PlayerMovement : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isInfected)
+        {
+            gameObject.GetComponent<SpriteRenderer>().material = infectedMat;
+        }
+        if (isMovable)
+        {
+            if (Input.GetKey(KeyCode.A))
+            {
+                horizontal = -1;
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                horizontal = 1;
+            }
+            if (!Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
+            {
+                horizontal = 0;
+            }
+        }
         /*if (!IsOwner)
         {
             return;
         }*/
 
-        float yVel;
+        /*float yVel;
         if (isTouchingGround)
         {
             yVel = 0;
@@ -58,7 +84,7 @@ public class PlayerMovement : NetworkBehaviour
         {
             yVel = rb.velocity.y - fallSpeed;
         }
-        rb.velocity = new Vector2(horizontal * speed, yVel);
+        rb.velocity = new Vector2(horizontal * speed, yVel);*/
 
 
         if (!isFacingRight && horizontal > 0f) 
@@ -92,7 +118,7 @@ public class PlayerMovement : NetworkBehaviour
 
     // Makes all players jump on input
     // TODO: FIX THIS SHIT
-    public void Jump(InputAction.CallbackContext context)
+    /*public void Jump(InputAction.CallbackContext context)
     {
         if (context.performed && true)
         {
@@ -103,8 +129,8 @@ public class PlayerMovement : NetworkBehaviour
         if (context.canceled && rb.velocity.y > 0f)
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
-		}
-	}
+        }
+    }*/
 
     public void Move(InputAction.CallbackContext context)
     {
@@ -123,11 +149,11 @@ public class PlayerMovement : NetworkBehaviour
         {
 			isTouchingGround = true;
 		}
-	}
+    }
 
     private void ControlAnim()
     {
-        if (rb.velocity.y > 1)
+        if (GetComponent<PlatformChaser2DModified>().isAirborne)
         {
             playerAnimator.SetTrigger("jump");
         }
@@ -150,22 +176,20 @@ public class PlayerMovement : NetworkBehaviour
         {
             playerAnimator.SetTrigger("hit");
         }
+        if (isInfected && collision.gameObject.layer == 3)
+        {
+            collision.GetComponent<PlayerMovement>().BecomeInfected();
+        }
+
+
+    }
+    public void BecomeInfected()
+    {
+        isInfected = true;
     }
 
     private IEnumerator Wait()
     {
         yield return new WaitForSeconds(2.5f);
-    }
-
-    public void StartSpeedBoost()
-    {
-        StartCoroutine(SpeedBoost());
-    }
-
-    private IEnumerator SpeedBoost()
-    {
-        speed = 12f;
-        yield return new WaitForSeconds(6f);
-        speed = 8f;
     }
 }
