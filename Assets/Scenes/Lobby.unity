@@ -3248,7 +3248,7 @@ GameObject:
   - component: {fileID: 1629775312}
   - component: {fileID: 1629775313}
   m_Layer: 0
-  m_Name: SceneManager
+  m_Name: LobbySceneManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3281,6 +3281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8f7093ac9f0e564cb54c88942fd01d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _joinCode: {fileID: 1982219290}
 --- !u!114 &1629775313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4433,7 +4434,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1982219289
 RectTransform:
   m_ObjectHideFlags: 0
