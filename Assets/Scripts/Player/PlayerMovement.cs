@@ -50,7 +50,7 @@ public class PlayerMovement : NetworkBehaviour
             var hit = Physics2D.Raycast(transform.position, -transform.up);
             if (hit)
             {
-                Debug.Log(hit.transform.gameObject.name);
+                //Debug.Log(hit.transform.gameObject.name);
             }
             
         }
@@ -103,8 +103,8 @@ public class PlayerMovement : NetworkBehaviour
         if (context.canceled && rb.velocity.y > 0f)
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
-        }
-    }
+		}
+	}
 
     public void Move(InputAction.CallbackContext context)
     {
@@ -119,10 +119,8 @@ public class PlayerMovement : NetworkBehaviour
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-        Debug.Log("Entered Collision");
         if (collision.gameObject.layer == 6)
         {
-            Debug.Log("Collision with env layer");
 			isTouchingGround = true;
 		}
 	}
