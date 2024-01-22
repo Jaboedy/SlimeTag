@@ -1,5 +1,6 @@
 using System.Collections;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,7 +17,9 @@ public class PlayerMovement : NetworkBehaviour
     private bool isFacingRight = false;
     private bool isTouchingGround = false;
 
-    private Animator playerAnimator;
+    [SerializeField] private Material infectedMat;
+
+    [SerializeField] private Animator playerAnimator;
 
     [SerializeField] private GameObject rightThresh;
     [SerializeField] private GameObject leftThresh;
@@ -25,6 +28,8 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] private GameObject respawnPoint;
 
     public bool isInfected = false;
+
+    [SerializeField] private bool isMovable = true;
 
     // Start is called before the first frame update
     public override void OnNetworkSpawn()
@@ -36,6 +41,25 @@ public class PlayerMovement : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isInfected)
+        {
+            gameObject.GetComponent<SpriteRenderer>().material = infectedMat;
+        }
+        if (isMovable)
+        {
+            if (Input.GetKey(KeyCode.A))
+            {
+                horizontal = -1;
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                horizontal = 1;
+            }
+            if (!Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
+            {
+                horizontal = 0;
+            }
+        }
         /*if (!IsOwner)
         {
             return;
@@ -123,11 +147,11 @@ public class PlayerMovement : NetworkBehaviour
             Debug.Log("Collision with env layer");
 			isTouchingGround = true;
 		}
-	}
+    }
 
     private void ControlAnim()
     {
-        if (rb.velocity.y > 1)
+        if (GetComponent<PlatformChaser2DModified>().isAirborne)
         {
             playerAnimator.SetTrigger("jump");
         }
@@ -150,11 +174,12 @@ public class PlayerMovement : NetworkBehaviour
         {
             playerAnimator.SetTrigger("hit");
         }
-
         if (isInfected && collision.gameObject.layer == 3)
         {
             collision.GetComponent<PlayerMovement>().BecomeInfected();
         }
+
+
     }
     public void BecomeInfected()
     {
@@ -164,17 +189,5 @@ public class PlayerMovement : NetworkBehaviour
     private IEnumerator Wait()
     {
         yield return new WaitForSeconds(2.5f);
-    }
-
-    public void StartSpeedBoost()
-    {
-        StartCoroutine(SpeedBoost());
-    }
-
-    private IEnumerator SpeedBoost()
-    {
-        speed = 12f;
-        yield return new WaitForSeconds(6f);
-        speed = 8f;
     }
 }
