@@ -2264,6 +2264,10 @@ PrefabInstance:
       propertyPath: _joinCodeText
       value: 
       objectReference: {fileID: 666968524}
+    - target: {fileID: 3063071494838977927, guid: 0b94954ed02f5ad4c8fd75e44f148a23, type: 3}
+      propertyPath: _slimeTagSceneManager
+      value: 
+      objectReference: {fileID: 1654134706}
     - target: {fileID: 8977929388142219565, guid: 0b94954ed02f5ad4c8fd75e44f148a23, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

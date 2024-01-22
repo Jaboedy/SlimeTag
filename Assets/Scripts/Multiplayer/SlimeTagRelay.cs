@@ -25,6 +25,7 @@ public class SlimeTagRelay : MonoBehaviour
 
     private async void Awake()
     {
+        DontDestroyOnLoad(this);
         Debug.Log(_joinCodeText.text);
         _transport = FindObjectOfType<UnityTransport>();
         _buttons.SetActive(false);
@@ -61,6 +62,7 @@ public class SlimeTagRelay : MonoBehaviour
         }
 	}
 
+    //Currently doesn't let client join session.  Only stopped working after changing scene added to CreateGame function
     public async void JoinGame()
     {
         _buttons.SetActive(false);
