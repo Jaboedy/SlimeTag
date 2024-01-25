@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class SlimeTagSceneManager : MonoBehaviour
+public class SlimeTagSceneManager : NetworkBehaviour
 {
     private string JoinCode;
+    private NetworkVariable<int> currentMapIndex = new NetworkVariable<int>(0);
     // Start is called before the first frame update
     private void Start()
     {
@@ -29,5 +31,11 @@ public class SlimeTagSceneManager : MonoBehaviour
             return this.JoinCode; 
         }
         return null;
+    }
+
+    public NetworkVariable<int> getCurrentMapIndex() {  return currentMapIndex; }
+    public void setCurrentMapIndex(int newIndex)
+    {
+        currentMapIndex.Value = newIndex;
     }
 }

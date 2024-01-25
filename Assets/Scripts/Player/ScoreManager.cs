@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ScoreManager : MonoBehaviour
+public class ScoreManager : NetworkBehaviour
 {
     [SerializeField] Material[] TestMaterials;
 
@@ -13,6 +14,7 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private GameObject roundOver;
     [SerializeField] private GameObject roundBetweenDisplay;
     [SerializeField] private GameObject gameOverScreen;
+    private SlimeTagSceneManager slimeTagSceneManager;
 
     public PlayersAndScores[] playersAndScores;
     public GameObject[] players;
@@ -28,14 +30,19 @@ public class ScoreManager : MonoBehaviour
     public PlayersAndScores player3 = new PlayersAndScores();
     public PlayersAndScores player4 = new PlayersAndScores();
     public PlayersAndScores player5 = new PlayersAndScores();
-    void Start()
-    {
+	public override void OnNetworkSpawn()
+	{
+        slimeTagSceneManager = FindObjectOfType<SlimeTagSceneManager>();
+        if (NetworkManager.Singleton.IsHost)
+        {
+            slimeTagSceneManager.setCurrentMapIndex(Random.Range(0, Maps.Length));
+        }
         Maps = GameObject.FindGameObjectsWithTag("Map");
         foreach (var map in Maps)
         {
             map.SetActive(false);
         }
-        currentMap = Maps[Random.Range(0, Maps.Length)];
+        currentMap = Maps[slimeTagSceneManager.getCurrentMapIndex().Value];
         currentMap.SetActive(true);
         players = GameObject.FindGameObjectsWithTag("Player");
         AssignPlayersToSpawns();
@@ -114,7 +121,11 @@ public class ScoreManager : MonoBehaviour
             roundOver.SetActive(false);
             roundBetweenDisplay.SetActive(true);
             yield return new WaitForSecondsRealtime(5);
-            var newMap = Maps[Random.Range(0, Maps.Length)];
+            if (NetworkManager.Singleton.IsHost)
+            {
+                slimeTagSceneManager.setCurrentMapIndex(Random.Range(0, Maps.Length));
+			}
+            var newMap = Maps[slimeTagSceneManager.getCurrentMapIndex().Value];
             /*while (newMap == currentMap || OldMaps.Contains(newMap)) 
             {
                 newMap = Maps[Random.Range(0, Maps.Length)];
