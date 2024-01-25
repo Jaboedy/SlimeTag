@@ -32,7 +32,7 @@ public class ReadyZone : MonoBehaviour
 		if (collision != null)
         {
             Debug.Log("Collision not null");
-            if (collision.gameObject.layer == 3 && !playersInZone.Contains(collision.gameObject) && playersInZone.Count > 2)
+            if (collision.gameObject.layer == 3 && !playersInZone.Contains(collision.gameObject))
             {
                 Debug.Log("Player Layer");
                 playersInZone.Add(collision.gameObject);
