@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Text;
 using System.Threading.Tasks;
 using TMPro;
 using Unity.Netcode;
@@ -71,5 +73,15 @@ public class SlimeTagRelay : MonoBehaviour
         _transport.SetClientRelayData(a.RelayServer.IpV4, (ushort)a.RelayServer.Port, a.AllocationIdBytes, a.Key, a.ConnectionData, a.HostConnectionData);
 
         NetworkManager.Singleton.StartClient();
+    }
+
+    public List<string> GetConnectedPlayers()
+    {
+        List<string> players = new List<string>();
+        foreach (var item in NetworkManager.Singleton.ConnectedClientsList)
+        {
+            players.Add(item.ClientId.ToString());
+        }
+        return players;
     }
 }
