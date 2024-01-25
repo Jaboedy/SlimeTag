@@ -18,6 +18,8 @@ public class PlayerMovement : NetworkBehaviour
     private bool isFacingRight = false;
     private bool isTouchingGround = false;
 
+    [SerializeField] private GameObject scoreManager;
+
     [SerializeField] private Material infectedMat;
 
     [SerializeField] private Animator playerAnimator;
@@ -176,16 +178,16 @@ public class PlayerMovement : NetworkBehaviour
         {
             playerAnimator.SetTrigger("hit");
         }
-        if (isInfected && collision.gameObject.layer == 3)
+        if (isInfected && collision.gameObject.layer == 3 && collision.GetComponent<PlayerMovement>().isInfected == false)
         {
             collision.GetComponent<PlayerMovement>().BecomeInfected();
+            gameObject.GetComponent<PlayerScoreManager>().TotaledScore += 2;
         }
-
-
     }
     public void BecomeInfected()
     {
         isInfected = true;
+        scoreManager.GetComponent<ScoreManager>().infectedPlayers.Add(gameObject);
     }
 
     private IEnumerator Wait()

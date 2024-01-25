@@ -240,6 +240,7 @@ GameObject:
   - component: {fileID: 197349007}
   - component: {fileID: 197349006}
   - component: {fileID: 197349005}
+  - component: {fileID: 197349009}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -330,6 +331,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &197349009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 197349004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40628b9e908bb7e43b153bfbc5805fdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NameInput: {fileID: 0}
+  pName: 
 --- !u!1 &233067573
 GameObject:
   m_ObjectHideFlags: 0
@@ -2678,37 +2693,13 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1823575942}
+      - m_Target: {fileID: 197349009}
         m_TargetAssemblyTypeName: MainMenuFunctions, Assembly-CSharp
-        m_MethodName: GetHostName
+        m_MethodName: GetPlayerName
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1823575942}
-        m_TargetAssemblyTypeName: MainMenuFunctions, Assembly-CSharp
-        m_MethodName: EnableDisableHostButton
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 233067575}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1823575942}
-        m_TargetAssemblyTypeName: MainMenuFunctions, Assembly-CSharp
-        m_MethodName: EnableDisableJoinButton
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1426369986}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2878,6 +2869,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40628b9e908bb7e43b153bfbc5805fdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NameInput: {fileID: 0}
+  pName: 
 --- !u!1 &1828483863
 GameObject:
   m_ObjectHideFlags: 0

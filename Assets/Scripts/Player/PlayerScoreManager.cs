@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using WebSocketSharp;
 
 public class PlayerScoreManager : MonoBehaviour
 {
@@ -8,12 +9,16 @@ public class PlayerScoreManager : MonoBehaviour
     public int TotaledScore;
     void Start()
     {
-
+        TotaledScore = 0;
+        /*if (!GetComponent<MainMenuFunctions>().pName.IsNullOrEmpty())
+        {
+            //enteredName = GetComponent<MainMenuFunctions>().pName;
+        }*/
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+
     }
+
 }
