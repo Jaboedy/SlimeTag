@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class ReadyZone : MonoBehaviour
 {
-    SlimeTagRelay relay;
-    List<GameObject> playersInZone = new List<GameObject>();
+    private SlimeTagRelay relay;
+    private List<GameObject> playersInZone = new List<GameObject>();
+    [SerializeField] private TMP_Text readyText;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +19,7 @@ public class ReadyZone : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        readyText.text = $"Players Ready: {playersInZone.Count}/{relay.GetConnectedPlayers().Count}";
         if (playersInZone.Count == relay.GetConnectedPlayers().Count)
         {
             NetworkManager.Singleton.SceneManager.LoadScene("ClaytonsDevScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
