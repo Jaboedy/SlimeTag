@@ -66,7 +66,7 @@ public class ScoreManager : NetworkBehaviour
         {
             foreach(var player in players)
             {
-                if (player.GetComponent<PlayerMovement>().isInfected == false)
+                if (player.GetComponent<PlayerMovement>().isInfected.Value == false)
                 {
                     player.GetComponent<PlayerScoreManager>().TotaledScore += 10;
                 }
@@ -134,7 +134,7 @@ public class ScoreManager : NetworkBehaviour
             newMap.SetActive(true);
             foreach (var player in players)
             {
-                player.GetComponent<PlayerMovement>().isInfected = false;
+                player.GetComponent<PlayerMovement>().isInfected.Value = false;
                 player.GetComponent<SpriteRenderer>().material = TestMaterials[Random.Range(0, TestMaterials.Length)];
             }
             AssignPlayersToSpawns();
@@ -165,6 +165,7 @@ public class ScoreManager : NetworkBehaviour
 
     private void AssignPlayersToSpawns()
     {
+        if (!NetworkManager.Singleton.IsHost) { return; }
         GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("PlayerSpawnPoint");
         for (int i = 0; i < players.Length; i++)
         {

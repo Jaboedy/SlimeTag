@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5877015661110010962}
   - component: {fileID: 6172256137846072648}
+  - component: {fileID: -8557819453352672533}
   m_Layer: 0
   m_Name: ScoreTracker
   m_TagString: Untagged
@@ -44,5 +45,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2358de708cb20f4f95b44268d3ac89a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TestMaterials: []
+  round: 0
+  roundOver: {fileID: 0}
+  roundBetweenDisplay: {fileID: 0}
+  gameOverScreen: {fileID: 0}
   players: []
   playerNames: []
+  infectedPlayers: []
+  Maps: []
+  currentMap: {fileID: 0}
+  OldMaps: []
+--- !u!114 &-8557819453352672533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8579412311671250409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1

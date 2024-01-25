@@ -30,7 +30,7 @@ public class PlayerMovement : NetworkBehaviour
 
     [SerializeField] private List<Material> materials;
 
-    public bool isInfected = false;
+    public NetworkVariable<bool> isInfected = new NetworkVariable<bool>(false);
 
     [SerializeField] private bool isMovable = true;
 
@@ -45,7 +45,7 @@ public class PlayerMovement : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isInfected)
+        if (isInfected.Value)
         {
             gameObject.GetComponent<SpriteRenderer>().material = infectedMat;
         }
@@ -168,7 +168,7 @@ public class PlayerMovement : NetworkBehaviour
         {
             playerAnimator.SetTrigger("hit");
         }
-        if (isInfected && collision.gameObject.layer == 3 && collision.GetComponent<PlayerMovement>().isInfected == false)
+        if (isInfected.Value && collision.gameObject.layer == 3 && collision.GetComponent<PlayerMovement>().isInfected.Value == false)
         {
             collision.GetComponent<PlayerMovement>().BecomeInfected();
             gameObject.GetComponent<PlayerScoreManager>().TotaledScore += 2;
@@ -176,7 +176,7 @@ public class PlayerMovement : NetworkBehaviour
     }
     public void BecomeInfected()
     {
-        isInfected = true;
+        isInfected.Value = true;
         scoreManager.GetComponent<ScoreManager>().infectedPlayers.Add(gameObject);
     }
 
