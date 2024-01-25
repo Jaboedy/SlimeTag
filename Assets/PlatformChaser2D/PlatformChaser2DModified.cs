@@ -37,12 +37,15 @@ public class PlatformChaser2DModified : MonoBehaviour
 
 	LayerMask mask;
 
+	public Transform startingPos;
+
 	[SerializeField] private bool isMovable;
 	void Start()
 	{
 		mask = LayerMask.GetMask("Enviorment");
 		// find a starting point by going directly transform.down
-		var hit = Physics2D.Raycast(origin: transform.position, direction: -transform.up, mask);
+		StartCoroutine(WaitForSpawn());
+        var hit = Physics2D.Raycast(origin: startingPos.position, direction: -transform.up, mask);
 
 		if (!hit)
 		{
@@ -219,6 +222,11 @@ public class PlatformChaser2DModified : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 0, desiredRotation);
         }
     }
+
+	private IEnumerator WaitForSpawn()
+	{
+		yield return new WaitForSecondsRealtime(0.5f);
+	}
 
     public void StartSpeedBoost()
     {

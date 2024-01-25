@@ -13,10 +13,10 @@ public class PlayerMovement : NetworkBehaviour
 	private Rigidbody2D rb;
 
 	private float horizontal;
-    private float speed = 8f;
-    private float jumpingPower = 8f;
+    
     private bool isFacingRight = false;
-    private bool isTouchingGround = false;
+
+    [SerializeField] private GameObject scoreManager;
 
     [SerializeField] private Material infectedMat;
 
@@ -143,14 +143,6 @@ public class PlayerMovement : NetworkBehaviour
         transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
     }
 
-	private void OnCollisionEnter2D(Collision2D collision)
-	{
-        if (collision.gameObject.layer == 6)
-        {
-			isTouchingGround = true;
-		}
-    }
-
     private void ControlAnim()
     {
         if (GetComponent<PlatformChaser2DModified>().isAirborne)
@@ -176,16 +168,16 @@ public class PlayerMovement : NetworkBehaviour
         {
             playerAnimator.SetTrigger("hit");
         }
-        if (isInfected && collision.gameObject.layer == 3)
+        if (isInfected && collision.gameObject.layer == 3 && collision.GetComponent<PlayerMovement>().isInfected == false)
         {
             collision.GetComponent<PlayerMovement>().BecomeInfected();
+            gameObject.GetComponent<PlayerScoreManager>().TotaledScore += 2;
         }
-
-
     }
     public void BecomeInfected()
     {
         isInfected = true;
+        scoreManager.GetComponent<ScoreManager>().infectedPlayers.Add(gameObject);
     }
 
     private IEnumerator Wait()

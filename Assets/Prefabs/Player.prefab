@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 3146681028693065195}
   - component: {fileID: 7738205163198730544}
   - component: {fileID: 7273125415984170812}
+  - component: {fileID: 3644890998244470391}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -173,6 +174,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   fallSpeed: 0.1
+  scoreManager: {fileID: 0}
   infectedMat: {fileID: 2100000, guid: 98b3c3a3894b884438401cfb6bf1d3e2, type: 2}
   playerAnimator: {fileID: 979438347753225430}
   rightThresh: {fileID: 0}
@@ -282,6 +284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 194eec66b66aa47c8a4866f1a2f15f06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startingPos: {fileID: 0}
   isMovable: 1
   isAirborne: 0
 --- !u!114 &3146681028693065195
@@ -426,3 +429,17 @@ MonoBehaviour:
     TriggerNameHash: 1523721793
     TransitionIndex: 2
   m_Animator: {fileID: 979438347753225430}
+--- !u!114 &3644890998244470391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4528674865343021934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1e2a19dae0efd94f99cb8bed3a83fcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enteredName: testing1
+  TotaledScore: 0
