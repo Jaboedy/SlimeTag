@@ -13,10 +13,8 @@ public class PlayerMovement : NetworkBehaviour
 	private Rigidbody2D rb;
 
 	private float horizontal;
-    private float speed = 8f;
-    private float jumpingPower = 8f;
+    
     private bool isFacingRight = false;
-    private bool isTouchingGround = false;
 
     [SerializeField] private GameObject scoreManager;
 
@@ -143,14 +141,6 @@ public class PlayerMovement : NetworkBehaviour
     {
         isFacingRight = !isFacingRight;
         transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
-    }
-
-	private void OnCollisionEnter2D(Collision2D collision)
-	{
-        if (collision.gameObject.layer == 6)
-        {
-			isTouchingGround = true;
-		}
     }
 
     private void ControlAnim()

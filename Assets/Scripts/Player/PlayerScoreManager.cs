@@ -15,10 +15,4 @@ public class PlayerScoreManager : MonoBehaviour
             //enteredName = GetComponent<MainMenuFunctions>().pName;
         }*/
     }
-
-    void Update()
-    {
-
-    }
-
 }
