@@ -22,12 +22,6 @@ public class PlayerMovement : NetworkBehaviour
 
     [SerializeField] private Animator playerAnimator;
 
-    [SerializeField] private GameObject rightThresh;
-    [SerializeField] private GameObject leftThresh;
-    [SerializeField] private GameObject botThresh;
-
-    [SerializeField] private GameObject respawnPoint;
-
     [SerializeField] private List<Material> materials;
 
     private SlimeTagSceneManager gameManager;
@@ -102,7 +96,7 @@ public class PlayerMovement : NetworkBehaviour
         }
         ControlAnim();
         
-        if (transform.position.y < botThresh.transform.position.y)
+       /* if (transform.position.y < botThresh.transform.position.y)
         {
             //yield return new WaitForSeconds(2.5f);
             transform.position = new Vector3(respawnPoint.transform.position.x, respawnPoint.transform.position.y);
@@ -117,7 +111,7 @@ public class PlayerMovement : NetworkBehaviour
         {
             transform.position = new Vector3(leftThresh.transform.position.x, transform.position.y);
         }
-
+       */
 
     }
 

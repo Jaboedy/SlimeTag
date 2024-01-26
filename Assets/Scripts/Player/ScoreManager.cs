@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
+using UnityEngine.Networking;
 using Unity.Netcode.Components;
+using Unity.Networking.Transport;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,6 +24,8 @@ public class ScoreManager : NetworkBehaviour
     public GameObject[] players;
     public string[] playerNames;
     public List<GameObject> infectedPlayers = new List<GameObject>();
+
+    [SerializeField] private GameObject[] NetworkPlayers;
 
     public GameObject[] Maps;
     public GameObject currentMap;
@@ -169,14 +173,15 @@ public class ScoreManager : NetworkBehaviour
     {
         if (!NetworkManager.Singleton.IsHost) { return; }
         GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("PlayerSpawnPoint");
-        foreach (GameObject player in slimeTagSceneManager.getPlayers())
+        for (int i = 0; i < players.Length; i++)
         {
-            int rand = Random.Range(0, spawnPoints.Length);
-			player.transform.position = spawnPoints[rand].transform.position;
-            player.GetComponent<PlatformChaser2DModified>().startingPos = spawnPoints[rand].transform;
-            player.GetComponent<NetworkObject>().Spawn();
-		}
+            players[i].transform.position = spawnPoints[i].transform.position;
+            players[i].GetComponent<PlatformChaser2DModified>().startingPos = spawnPoints[i].transform;
+            GameObject playerInstance = Instantiate(players[i], spawnPoints[i].transform.position, spawnPoints[i].transform.rotation);
+            players[i].GetComponent<NetworkObject>().Spawn(playerInstance);
+        }
         players[Random.Range(0, players.Length)].GetComponent<PlayerMovement>().BecomeInfected();
+
     }
 
     private void EndGame()

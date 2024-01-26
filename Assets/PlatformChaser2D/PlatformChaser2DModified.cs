@@ -5,6 +5,7 @@ using Unity.Services.Lobbies.Models;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 // @kurtdekker
 // 2D platform follower and leaper
@@ -36,7 +37,7 @@ public class PlatformChaser2DModified : NetworkBehaviour
 	const float SensingCastLift = 0.25f;
 	// limit our cast to avoid grabbing distant things
 	const float SensingCastDistance = 1.0f;
-
+	Scene scene;
 	LayerMask mask;
 
 	public Transform startingPos;
@@ -45,9 +46,22 @@ public class PlatformChaser2DModified : NetworkBehaviour
 	public override void OnNetworkSpawn()
 	{
 		Debug.Log("Start");
-		LayerMask mask = LayerMask.GetMask("Enviorment");
-		var hit = Physics2D.Raycast(origin: startingPos.transform.position, direction: -transform.up, mask);
-		JumpToHit(hit);
+		mask = LayerMask.GetMask("Enviorment");
+		RaycastHit2D hit;
+		if (scene.name == "Lobby")
+		{
+            hit = Physics2D.Raycast(origin: gameObject.transform.position, direction: -transform.up, mask);
+            JumpToHit(hit);
+        }
+		else if (scene.name == "ClaytonsDevScene")
+		{
+			hit = Physics2D.Raycast(origin: startingPos.transform.position, direction: -transform.up, mask);
+			JumpToHit(hit);
+		}
+		else
+		{
+			Debug.Log("No Starting Contact");
+		}
 	}
 
 	void SetDesiredRotationFromNormal(Vector3 normal)
@@ -114,6 +128,7 @@ public class PlatformChaser2DModified : NetworkBehaviour
 
 	void Update()
 	{
+		scene = SceneManager.GetActiveScene();
 		// input is disregarded while you're flying through the air
 		if (ProcessAirborne())
 		{
