@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -10,7 +11,7 @@ using UnityEngine.EventSystems;
 // See platform_chaser_2d.png for visual explanation.
 //
 
-public class PlatformChaser2DModified : MonoBehaviour
+public class PlatformChaser2DModified : NetworkBehaviour
 {
 	// "left" means from the perspective of the platform you are on, so "left"
 	// actually means "right" when you're dancing on the ceiling. What a feeling.
@@ -40,23 +41,11 @@ public class PlatformChaser2DModified : MonoBehaviour
 	public Transform startingPos;
 
 	[SerializeField] private bool isMovable;
-	void Start()
+	public override void OnNetworkSpawn()
 	{
+		Debug.Log("Start");
 		mask = LayerMask.GetMask("Enviorment");
-		// find a starting point by going directly transform.down
-		StartCoroutine(WaitForSpawn());
-        var hit = Physics2D.Raycast(origin: startingPos.position, direction: -transform.up, mask);
-
-		if (!hit)
-		{
-			Debug.LogError("Didn't hit anything on start!");
-			Debug.Break();
-		}
-
-		JumpToHit(hit);
-
 		
-
     }
 
 	void SetDesiredRotationFromNormal(Vector3 normal)
@@ -64,7 +53,7 @@ public class PlatformChaser2DModified : MonoBehaviour
 		desiredRotation = Mathf.Atan2(-normal.x, normal.y) * Mathf.Rad2Deg;
 	}
 
-	void JumpToHit(RaycastHit2D hit)
+	public void JumpToHit(RaycastHit2D hit)
 	{
 		transform.up = hit.normal;
 
@@ -222,11 +211,6 @@ public class PlatformChaser2DModified : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 0, desiredRotation);
         }
     }
-
-	private IEnumerator WaitForSpawn()
-	{
-		yield return new WaitForSecondsRealtime(0.5f);
-	}
 
     public void StartSpeedBoost()
     {

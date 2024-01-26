@@ -28,12 +28,9 @@ public class SlimeTagRelay : MonoBehaviour
     private async void Awake()
     {
         DontDestroyOnLoad(this);
-        Debug.Log(_joinCodeText.text);
         _transport = FindObjectOfType<UnityTransport>();
         _buttons.SetActive(false);
-        Debug.Log("Authenticating");
         await Authenticate();
-        Debug.Log($"PlayerID: {AuthenticationService.Instance.PlayerId}");
         
         _buttons.SetActive(true);
     }

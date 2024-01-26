@@ -30,6 +30,8 @@ public class PlayerMovement : NetworkBehaviour
 
     [SerializeField] private List<Material> materials;
 
+    private SlimeTagSceneManager gameManager;
+
     public NetworkVariable<bool> isInfected = new NetworkVariable<bool>(false);
 
     [SerializeField] private bool isMovable = true;
@@ -37,9 +39,12 @@ public class PlayerMovement : NetworkBehaviour
     // Use instead of awake/start for network
     public override void OnNetworkSpawn()
     {
+        gameManager = FindObjectOfType<SlimeTagSceneManager>();
+        gameManager.AddPlayer(gameObject);
         rb = GetComponent<Rigidbody2D>();
         playerAnimator = GetComponent<Animator>();
         GetComponent<SpriteRenderer>().material = materials[((int)OwnerClientId)];
+
     }
 
     // Update is called once per frame

@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScoreManager : NetworkBehaviour
 {
@@ -36,27 +38,27 @@ public class ScoreManager : NetworkBehaviour
         if (NetworkManager.Singleton.IsHost)
         {
             slimeTagSceneManager.setCurrentMapIndex(Random.Range(0, Maps.Length));
-        }
-        Maps = GameObject.FindGameObjectsWithTag("Map");
-        foreach (var map in Maps)
-        {
-            map.SetActive(false);
-        }
-        currentMap = Maps[slimeTagSceneManager.getCurrentMapIndex().Value];
-        currentMap.SetActive(true);
-        players = GameObject.FindGameObjectsWithTag("Player");
-        AssignPlayersToSpawns();
-        playerNames = new string[players.Length];
+			Maps = GameObject.FindGameObjectsWithTag("Map");
+			foreach (var map in Maps)
+			{
+				map.SetActive(false);
+			}
+			currentMap = Maps[slimeTagSceneManager.getCurrentMapIndex().Value];
+			currentMap.SetActive(true);
+			players = GameObject.FindGameObjectsWithTag("Player");
+			AssignPlayersToSpawns();
+			playerNames = new string[players.Length];
 
-        for (int i = 0; i < players.Length; i++)
-        {
-            playerNames[i] = players[i].GetComponent<PlayerScoreManager>().enteredName;
-        }
+			for (int i = 0; i < players.Length; i++)
+			{
+				playerNames[i] = players[i].GetComponent<PlayerScoreManager>().enteredName;
+			}
 
-        playersAndScores = new PlayersAndScores[players.Length];
+			playersAndScores = new PlayersAndScores[players.Length];
 
-        round = 1;
-        StartCoroutine(WaitForTesting());
+			round = 1;
+			StartCoroutine(WaitForTesting());
+		}
     }
 
     void Update()
@@ -64,7 +66,7 @@ public class ScoreManager : NetworkBehaviour
         AssignPlayersWithScores();
         if (infectedPlayers.Count == players.Length - 1)
         {
-            foreach(var player in players)
+            foreach(var player in slimeTagSceneManager.getPlayers())
             {
                 if (player.GetComponent<PlayerMovement>().isInfected.Value == false)
                 {
@@ -110,7 +112,6 @@ public class ScoreManager : NetworkBehaviour
     {
         if (round < players.Length)
         {
-            Debug.Log("Running RoundOver Coroutine");
             infectedPlayers.Clear();
             Time.timeScale = 0;
 
@@ -156,22 +157,23 @@ public class ScoreManager : NetworkBehaviour
     private IEnumerator WaitForTesting()
     {
         yield return new WaitForSeconds(2);
-        Debug.Log(playersAndScores[0].playerName.ToString() + " " + playersAndScores[0].score.ToString());
-        Debug.Log(playersAndScores[1].playerName.ToString() + " " + playersAndScores[1].score.ToString());
-        Debug.Log(playersAndScores[2].playerName.ToString() + " " + playersAndScores[2].score.ToString());
-        Debug.Log(playersAndScores[3].playerName.ToString() + " " + playersAndScores[3].score.ToString());
-        Debug.Log(playersAndScores[4].playerName.ToString() + " " + playersAndScores[4].score.ToString());
     }
 
     private void AssignPlayersToSpawns()
     {
         if (!NetworkManager.Singleton.IsHost) { return; }
         GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("PlayerSpawnPoint");
-        for (int i = 0; i < players.Length; i++)
+        foreach (GameObject player in slimeTagSceneManager.getPlayers())
         {
-            players[i].transform.position = spawnPoints[i].transform.position;
-            players[i].GetComponent<PlatformChaser2DModified>().startingPos = spawnPoints[i].transform;
-        }
+            PlatformChaser2DModified chaser = player.GetComponent<PlatformChaser2DModified>();
+            int rand = Random.Range(0, spawnPoints.Length);
+			player.transform.position = spawnPoints[rand].transform.position;
+			player.transform.rotation = spawnPoints[rand].transform.rotation;
+            chaser.startingPos = spawnPoints[rand].transform;
+			LayerMask mask = LayerMask.GetMask("Enviorment");
+			var hit = Physics2D.Raycast(origin: player.transform.position, direction: -transform.up, mask);
+			chaser.JumpToHit(hit);
+		}
         players[Random.Range(0, players.Length)].GetComponent<PlayerMovement>().BecomeInfected();
     }
 

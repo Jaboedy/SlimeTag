@@ -28,13 +28,10 @@ public class ReadyZone : MonoBehaviour
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
-        Debug.Log("COLLISION HERE");
 		if (collision != null)
         {
-            Debug.Log("Collision not null");
             if (collision.gameObject.layer == 3 && !playersInZone.Contains(collision.gameObject))
             {
-                Debug.Log("Player Layer");
                 playersInZone.Add(collision.gameObject);
             }
         }

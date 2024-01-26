@@ -25,6 +25,5 @@ public class MainMenuFunctions : MonoBehaviour
     public void GetPlayerName(string enteredName)
     {
         pName = enteredName;
-        Debug.Log("Entered Name: " +  pName);
     }
 }
