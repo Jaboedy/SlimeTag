@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.Services.Lobbies.Models;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -44,9 +45,10 @@ public class PlatformChaser2DModified : NetworkBehaviour
 	public override void OnNetworkSpawn()
 	{
 		Debug.Log("Start");
-		mask = LayerMask.GetMask("Enviorment");
-		
-    }
+		LayerMask mask = LayerMask.GetMask("Enviorment");
+		var hit = Physics2D.Raycast(origin: startingPos.transform.position, direction: -transform.up, mask);
+		JumpToHit(hit);
+	}
 
 	void SetDesiredRotationFromNormal(Vector3 normal)
 	{

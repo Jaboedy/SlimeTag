@@ -115,6 +115,12 @@ public class ScoreManager : NetworkBehaviour
             infectedPlayers.Clear();
             Time.timeScale = 0;
 
+            var players = GetComponent<SlimeTagSceneManager>().getPlayers();
+            foreach (var player in  players)
+            {
+                player.GetComponent<NetworkObject>().Despawn();
+            }
+
             roundOver.SetActive(true);
             OldMaps.Add(currentMap);
             currentMap.SetActive(false);
@@ -165,14 +171,10 @@ public class ScoreManager : NetworkBehaviour
         GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("PlayerSpawnPoint");
         foreach (GameObject player in slimeTagSceneManager.getPlayers())
         {
-            PlatformChaser2DModified chaser = player.GetComponent<PlatformChaser2DModified>();
             int rand = Random.Range(0, spawnPoints.Length);
 			player.transform.position = spawnPoints[rand].transform.position;
-			player.transform.rotation = spawnPoints[rand].transform.rotation;
-            chaser.startingPos = spawnPoints[rand].transform;
-			LayerMask mask = LayerMask.GetMask("Enviorment");
-			var hit = Physics2D.Raycast(origin: player.transform.position, direction: -transform.up, mask);
-			chaser.JumpToHit(hit);
+            player.GetComponent<PlatformChaser2DModified>().startingPos = spawnPoints[rand].transform;
+            player.GetComponent<NetworkObject>().Spawn();
 		}
         players[Random.Range(0, players.Length)].GetComponent<PlayerMovement>().BecomeInfected();
     }
